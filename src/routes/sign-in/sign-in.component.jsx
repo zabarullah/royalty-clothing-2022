@@ -4,7 +4,7 @@ import { signInWithGooglePopup, createUserDocumentFromAuth } from "../../utils/f
 const SignIn = () => {
 const logGoogleUser = async () => {
     const {user} = await signInWithGooglePopup(); // grabs the user from the response of signInWithGooglePopup
-    createUserDocumentFromAuth(user)            // pass in the user to the createUserDocumentFromAuth method So that the user is used as userAuth in this method.
+    const userDocRef = await createUserDocumentFromAuth(user)            // pass in the user to the createUserDocumentFromAuth method So that the user is used as userAuth in this method, to always return a userDocRef.
    
 }
 
