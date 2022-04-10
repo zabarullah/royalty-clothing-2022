@@ -17,11 +17,12 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 // Setup for Google Authentication
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({prompt: "select_account"}); // This will show the google popup for authentication if the provider is used 
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({prompt: "select_account"}); // This will show the google popup for authentication if the googlProvider is used 
 
 export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider) // Here by using provider we have assigned it to allow signin up with Google SignIn, otherwise we can also setup to use facebook, twitter etc
+export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider); // Here by using googlProvider we have assigned it to allow signin up with Google SignIn, otherwise we can also setup to use facebook, twitter etc
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 
 // Setup the firestore database
 export const db = getFirestore(); // Gets the firestore database and assigns it to db
