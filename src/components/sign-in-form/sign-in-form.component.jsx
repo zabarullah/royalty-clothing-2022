@@ -28,6 +28,7 @@ const SignInForm = () => {
 
     const SignInWithGoogle = async () => {
         const {user} = await signInWithGooglePopup();                   // grabs the user from the response of signInWithGooglePopup
+        setCurrentUser(user);                                        // Context step 4 - Use the setter function we grabbed in step 3 here - after the auth has occurred, we use setCurrentUser() function and pass it the auth user - So currentUser is the auth user and set in the state within Provider      
         await createUserDocumentFromAuth(user)                           // pass in the user to the createUserDocumentFromAuth method So that the user is used as userAuth in this method
     };
     
