@@ -1,11 +1,11 @@
-import { useState, useContext } from "react";                       /*  Context step 6 */
+import { useState } from "react";                       /*  Context step 6 */
 
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 
-import { UserContext } from "../../contexts/user.context";          /*  Context step 6 */
+
 
 import "./sign-up-form.styles.scss"
 
@@ -22,8 +22,6 @@ const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { displayName, email , password, confirmPassword } = formFields;
 
-    const {setCurrentUser} = useContext(UserContext);                   // Context step 6 - Grabs the context from UserContext and grabs the setter function SetCurrentUser
-
     const resetFormFields = () => {
         setFormFields(defaultFormFields);                               // resets the form back to an empty string state
     }
@@ -37,8 +35,6 @@ const SignUpForm = () => {
 
         try {
             const {user} = await createAuthUserWithEmailAndPassword(email, password);
-
-            setCurrentUser(user);                                       //   Context step 6 -  Use the setter function we grabbed in step 3 here - after the auth has occurred, we use setCurrentUser() function and pass it the auth user - So currentUser is the auth user and set in the state within Provider  
 
             await createUserDocumentFromAuth(user, {displayName});
             resetFormFields();                                          // to reset the form fields to empty string

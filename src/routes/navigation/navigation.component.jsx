@@ -9,15 +9,9 @@ import { signOutUser } from '../../utils/firebase/firebase.utils';  //  Context 
 import './navigation.styles.scss'
 
 const Navigation = () => {
-    const { currentUser, setCurrentUser } = useContext(UserContext);                //  Context step 5 - grab the currenUser Value now from the Provider(UserContext)
-    console.log(currentUser);                                       // should now log from our Navigation component the currentUser
+    const { currentUser } = useContext(UserContext);                //  Context step 5 - grab the currenUser Value now from the Provider(UserContext)
+//    console.log(currentUser);                                       // should now log from our Navigation component the currentUser
 
-    const signOutHandler = async () => {                            // Context Step 7 - When we signOut a user from the Nav Bar this method is called which runs the signOutUser method
-        await signOutUser();                       
-        setCurrentUser(null);                                       // Context Step 7 -  We then set the current User back to null otherwise it returns as undefined
-
-    }
-    
     return (
         <Fragment>                                                    {/*Used instead of using just a parent div tag*/}
             <div className='navigation'>
@@ -25,7 +19,7 @@ const Navigation = () => {
                 <div className='nav-links-container'> 
                  <Link className='nav-link' to='/shop'>SHOP</Link>
                  {
-                    currentUser ? ( <span className='nav-link' onClick={signOutHandler}> SIGN OUT</span> ) : ( <Link className='nav-link' to='/auth'>SIGN IN</Link> )  // Context Step 7 -  if there is a User signed in then it will show SIGNOUT otherwise it will show SIGN IN on the NAV Bar
+                    currentUser ? ( <span className='nav-link' onClick={signOutUser}> SIGN OUT</span> ) : ( <Link className='nav-link' to='/auth'>SIGN IN</Link> )  // Context Step 7 -  if there is a User signed in then it will show SIGNOUT otherwise it will show SIGN IN on the NAV Bar
                  }
                  <Link className='nav-link' to='/shop'>SHOP</Link>
                  <Link className='nav-link' to='/shop'>SHOP</Link>

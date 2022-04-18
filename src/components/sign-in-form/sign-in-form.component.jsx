@@ -1,11 +1,9 @@
-import { useState, useContext } from "react";   /*  Context step 3 */
+import { useState } from "react";   
 
 import { signInWithGooglePopup, createUserDocumentFromAuth, signInUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
-
-import { UserContext } from "../../contexts/user.context"; /*  Context step 3  */
 
 import "./sign-in-form.styles.scss"
 
@@ -15,29 +13,24 @@ const defaultFormFields = {
     password: '',
 }
 
-
 const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email , password } = formFields;
-
-    const { setCurrentUser } = useContext(UserContext);                 //  Context step 3 - Grabs the context from UserContext and grabs the setter function SetCurrentUser
 
     const resetFormFields = () => {
         setFormFields(defaultFormFields);                               // resets the form back to an empty string state
     }
 
     const SignInWithGoogle = async () => {
-        const {user} = await signInWithGooglePopup();                   // grabs the user from the response of signInWithGooglePopup
-        setCurrentUser(user);                                        // Context step 4 - Use the setter function we grabbed in step 3 here - after the auth has occurred, we use setCurrentUser() function and pass it the auth user - So currentUser is the auth user and set in the state within Provider      
-        await createUserDocumentFromAuth(user)                           // pass in the user to the createUserDocumentFromAuth method So that the user is used as userAuth in this method
-    };
+        await signInWithGooglePopup();                      
+     };
     
     const handleSubmit = async (event) => {
         event.preventDefault();                                         // to prevent the default action of a form submit
 
         try {
             const { user } = await signInUserWithEmailAndPassword(email, password);
-            setCurrentUser(user);                                        // Context step 4 - Use the setter function we grabbed in step 3 here - after the auth has occurred, we use setCurrentUser() function and pass it the auth user - So currentUser is the auth user and set in the state within Provider  
+ 
             resetFormFields();
         } catch (error) {
             if (error.code === "auth/wrong-password" || error.code === "auth/user-not-found") {
