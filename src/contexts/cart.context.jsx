@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 
+// adding item to cartItems and adding Quantity if the item is already listed in cartItems
 const addCartItem = (cartItems, productToAdd) => {
     //find if cartItems already contains the productToAdd  
     const existingCartItem = cartItems.find((cartItem) => cartItem.id === productToAdd.id);
