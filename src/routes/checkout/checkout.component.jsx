@@ -7,7 +7,7 @@ import CheckoutItem from "../../components/checkout-item/checkout-item.component
 import './checkout.styles.scss'
 
 const Checkout =() => {
-    const {cartItems, addItemToCart, removeItemFromCart} = useContext(CartContext); // Grabbing the cartItems from CartContext 
+    const {cartItems} = useContext(CartContext); // Grabbing the cartItems from CartContext 
     return (
         <div className="checkout-container">
             <h1>CHECKOUT PAGE</h1>
