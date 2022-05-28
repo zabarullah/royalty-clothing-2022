@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'; // doc gets the document, whilst getDoc and setDoc gets/sets the data
+import { getFirestore, doc, getDoc, setDoc, collection, writeBatch } from 'firebase/firestore'; // doc gets the document, whilst getDoc and setDoc gets/sets the data
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -25,6 +25,22 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 
 // Setup the firestore database
 export const db = getFirestore(); // Gets the firestore database and assigns it to db
+
+// adding new collection and the documents - categories of products and the products from our SHOP_DATA js objects. CollectionKey will be for the categories. objectsToAdd will be the SHOP_DATA js pobject writeBatch is used when you have more than one thing being updated(a transaction - in thins case a category and its objects(items within each collection))
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = collection(db,collectionKey);                             // go to database with the collectionKey(category) and pass this collections to
+    const batch = writeBatch(db);                                                   // since we will write multiple documents into each collection(multiple producst into each category), we have to use the writeBatch method
+                                                                                    //writeBatch() allows to attached a bunch of writes, deletes, sets etc to the batch, and once all of them are completed then we can commit it
+    // for each of the objects we will batch set them
+    objectsToAdd.forEach((object) => {                                              // each object has has a title and the items array(see SHOP_DATA) 
+        const docRef = doc(collectionRef, object.title.toLowerCase());              // we get the docRef with the method doc() and passing it collectionRef and the objects.title
+        batch.set(docRef, object);                                                  // sets for each object(category), a docRef for each object
+    });
+
+    await batch.commit();                                                           // awaits for the batch to be ready to be committed.
+    console.log('done');                                                            
+};
+
 
 // Setting up user documents, so that we can later store it in the firestore database
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation={}) => {
