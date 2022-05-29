@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc, collection, writeBatch } from 'firebase/firestore'; // doc gets the document, whilst getDoc and setDoc gets/sets the data
+import { getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs } from 'firebase/firestore'; // doc gets the document, whilst getDoc and setDoc gets/sets the data
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -26,7 +26,7 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 // Setup the firestore database
 export const db = getFirestore(); // Gets the firestore database and assigns it to db
 
-// adding new collection and the documents - categories of products and the products from our SHOP_DATA js objects. CollectionKey will be for the categories. objectsToAdd will be the SHOP_DATA js pobject writeBatch is used when you have more than one thing being updated(a transaction - in thins case a category and its objects(items within each collection))
+// adding new collection and the documents to the database- categories of products and the products from our SHOP_DATA js objects. CollectionKey will be for the categories. objectsToAdd will be the SHOP_DATA js pobject writeBatch is used when you have more than one thing being updated(a transaction - in thins case a category and its objects(items within each collection))
 export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
     const collectionRef = collection(db,collectionKey);                             // go to database with the collectionKey(category) and pass this collections to
     const batch = writeBatch(db);                                                   // since we will write multiple documents into each collection(multiple producst into each category), we have to use the writeBatch method
@@ -41,6 +41,19 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
     console.log('done');                                                            
 };
 
+export const getCategoriesAndDocuments = async () => {
+    const collectionRef = collection(db, 'categories');                             // get collection reference by passing the db and collection key(categories) to the collection method.
+    const q = query(collectionRef);                                                // generate a query generates an object: collectionRef is passed on to the query to provide a snapshot
+
+    const querySnapshot = await getDocs(q);                                         // getDocs allows to use the object from query(q) to then grab a snapshot documents
+    const categoriesMap = querySnapshot.docs.reduce((acc, docSnapshot) => {         // querySnapshot.docs gives us an array of snapshots, we reduce over the querySnapShots.docs inorder to get the array structure of categories with their respected items
+        const { title, items } = docSnapshot.data();                                // destructuring title and items from the docSnapshot (this grabs the data from the snapshot and grabs title and items from it)
+        acc[title.toLowerCase()] = items;                                           // the accumalator at the title value will be equal to the items, where, acc[index of item]
+        return acc;                                                                 // returns the accumalator    
+    }, {});
+
+    return categoriesMap;                                                           // finally we return the caregoriesMap
+}
 
 // Setting up user documents, so that we can later store it in the firestore database
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation={}) => {

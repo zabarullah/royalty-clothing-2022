@@ -1,8 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 
-import { addCollectionAndDocuments } from "../utils/firebase/firebase.utils.js";
+import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils.js";
 
-import SHOP_DATA from '../shop-data.js';
 
 export const ProductsContext = createContext({
     products: [],
@@ -11,10 +10,14 @@ export const ProductsContext = createContext({
 export const ProductsProvider = ({ children }) => {
     const [products, setProducts] = useState([]);
     
-    useEffect(() => {                                                       //Note this function is created to send the products and categories to the firestore databases and will be deleted from the code as soon as the collection (categories) is created.
-        addCollectionAndDocuments('categories', SHOP_DATA);                 //name the collection will be categories and SHOP_DATA will be the objects we are trying to add
-    }, [])                                                                  // this will run once and will grab all the categories from SHOP_DATA and run the function addCollectionAndDocuments function, which grabs each category and its items and commits it to firebase db
-   
+    useEffect(() => {                                                   // IMPORTANT! when working with async functions inside a useEffect, we do not pass a async callback to it for example: useEffect(async () => {}). Instead, you must create within the annonymous function a new async function
+        const getCategoriesMap = async () => {                          // new async function as explained above
+           const categoryMap = await getCategoriesAndDocuments();       // run the async function getCategoriesAndDocument, await its results and pass to variable caregoryMap
+           console.log(categoryMap);                                    // log the results of the functions results.
+        }
+        getCategoriesMap();                                             // invoke the main function within the useEffect(getCategoriesMap)
+    }, []);
+
     const value = { products };
     return (
         <ProductsContext.Provider value={value}> {children} </ProductsContext.Provider>  
