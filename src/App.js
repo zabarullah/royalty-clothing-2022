@@ -12,7 +12,7 @@ const App = () => {
     <Routes>  
       <Route path='/' element={<Navigation />}>
         <Route index element={<Home />} />
-        <Route path='shop' element={<Shop />} />
+        <Route path='shop/*' element={<Shop />} />                              { /* * denotes a wildcard where any route with shop/anyRoute will work. i.e. there are routes setup in the shop component */ }
         <Route path='auth' element={<Authentication />} />
         <Route path='checkout' element={<Checkout />} />
       </Route>                                        { /*All individual Route(s) are rapped inside Routes, where Route has a path and to which element(component) it will load */} 
