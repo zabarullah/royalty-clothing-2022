@@ -7,7 +7,7 @@ import './product-card.styles.scss';
 
 
 const ProductCard = ({ product }) => {
-    const { name, price, imageUrl } = product;
+    const { name, price, imageUrl } = product;                                  // grabs the name, price and imageUrl from each product
     const { addItemToCart } = useContext(CartContext);                          // Grab the addItemToCart function from cartContext, so that it can be used when the button is clicked
 
     const addProductToCart = () => addItemToCart(product);                      // pass in the product to the function addItemToCart, this function will run when the button is clicked

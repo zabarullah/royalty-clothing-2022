@@ -3,23 +3,24 @@ import { createContext, useState, useEffect } from "react";
 import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils.js";
 
 
-export const ProductsContext = createContext({
-    products: [],
+export const CategoriesContext = createContext({
+    CategoriesMap: {},                                                  //empty object
 });
 
-export const ProductsProvider = ({ children }) => {
-    const [products, setProducts] = useState([]);
+export const CategoriesProvider = ({ children }) => {                   
+    const [CategoriesMap, setCategoriesMap] = useState({});             ////empty object is set to default otherwise we can not use the keys to grab the items later
     
     useEffect(() => {                                                   // IMPORTANT! when working with async functions inside a useEffect, we do not pass a async callback to it for example: useEffect(async () => {}). Instead, you must create within the annonymous function a new async function
         const getCategoriesMap = async () => {                          // new async function as explained above
            const categoryMap = await getCategoriesAndDocuments();       // run the async function getCategoriesAndDocument, await its results and pass to variable caregoryMap
            console.log(categoryMap);                                    // log the results of the functions results.
+           setCategoriesMap(categoryMap); 
         }
         getCategoriesMap();                                             // invoke the main function within the useEffect(getCategoriesMap)
     }, []);
 
-    const value = { products };
+    const value = { CategoriesMap };
     return (
-        <ProductsContext.Provider value={value}> {children} </ProductsContext.Provider>  
+        <CategoriesContext.Provider value={value}> {children} </CategoriesContext.Provider>  
     );
 };
