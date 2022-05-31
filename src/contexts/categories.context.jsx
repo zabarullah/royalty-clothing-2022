@@ -4,11 +4,11 @@ import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils.js";
 
 
 export const CategoriesContext = createContext({
-    CategoriesMap: {},                                                  //empty object
+    categoriesMap: {},                                                  //empty object
 });
 
 export const CategoriesProvider = ({ children }) => {                   
-    const [CategoriesMap, setCategoriesMap] = useState({});             ////empty object is set to default otherwise we can not use the keys to grab the items later
+    const [categoriesMap, setCategoriesMap] = useState({});             ////empty object is set to default otherwise we can not use the keys to grab the items later
     
     useEffect(() => {                                                   // IMPORTANT! when working with async functions inside a useEffect, we do not pass a async callback to it for example: useEffect(async () => {}). Instead, you must create within the annonymous function a new async function
         const getCategoriesMap = async () => {                          // new async function as explained above
@@ -19,7 +19,7 @@ export const CategoriesProvider = ({ children }) => {
         getCategoriesMap();                                             // invoke the main function within the useEffect(getCategoriesMap)
     }, []);
 
-    const value = { CategoriesMap };
+    const value = { categoriesMap };
     return (
         <CategoriesContext.Provider value={value}> {children} </CategoriesContext.Provider>  
     );
