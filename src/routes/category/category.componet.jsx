@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { CategoriesContext } from '../../contexts/categories.context';
@@ -16,6 +16,9 @@ const Category = () => {
     }, [category, categoriesMap]);                                                          //useEffect will run only if category and categoriesMap changes
 
     return (
+        <Fragment>
+            <h2 className='category-title'>{category.toUpperCase()}</h2>
+
         <div className='category-container'>
             {  
                 products &&                                                                 // since the categoriesMap is run asyncronously, when this component is run it has no products and an undfined error. So we must add a safe guard: if products has a value then render it(products && - part tests this)                                                           
@@ -25,6 +28,7 @@ const Category = () => {
                 )
             }
         </div>
+        </Fragment>
     );
 };
 
