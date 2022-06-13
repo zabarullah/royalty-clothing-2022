@@ -1,4 +1,4 @@
-import "./button.styles.scss"
+import { BaseButton, GoogleSignInButton, InvertedButton } from "./button.styles"
 
 /*
 We have three types of buttons on the application:
@@ -10,17 +10,26 @@ So to be able to control the styling for the variations of buttons we will make 
 Each buttonType is passed into the BUTTON_TYPES_CLASSES[], within the className. 
 */
 
-const BUTTON_TYPES_ClASSES = {
+export const BUTTON_TYPES_ClASSES = {
+    base: 'base',
     google: 'google-sign-in',
     inverted: 'inverted'
 }
 
+const getButton = (buttonType =  BUTTON_TYPES_ClASSES.base) => (
+    {
+        [BUTTON_TYPES_ClASSES.base]: BaseButton,    
+        [BUTTON_TYPES_ClASSES.google]: GoogleSignInButton,    
+        [BUTTON_TYPES_ClASSES.inverted]: InvertedButton,    
+    }[buttonType]
+);
 
 const Button = ({ children, buttonType, ...otherProps }) => {                                              // children here will be the elements inside the button like the <p> tag H1 tag etc for any possible button on the site. buttonType will be a string and ...otherProps will be other information like type submit
+    const CustomButton = getButton(buttonType);
     return (
-        <button className={`button-container ${BUTTON_TYPES_ClASSES[buttonType]}`} {...otherProps}> {children} </button>
+        <CustomButton {...otherProps}> {children} </CustomButton>
     )
-}
+};
 
 export default Button;
 

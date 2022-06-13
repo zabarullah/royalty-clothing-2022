@@ -3,7 +3,7 @@ import { useState } from "react";
 import { signInWithGooglePopup, createUserDocumentFromAuth, signInUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 
 import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
+import Button, {BUTTON_TYPES_ClASSES} from "../button/button.component";
 
 import "./sign-in-form.styles.scss"
 
@@ -56,7 +56,7 @@ const SignInForm = () => {
                 <FormInput label="Password" type="password" required onChange={handleChange} name="password" value={password} />   
                 <div className="buttons-container">
                     <Button type="submit">Sign In</Button>
-                    <Button type='button' buttonType='google' onClick={SignInWithGoogle}>Google sign in</Button>   {/*here type='button' is used to prevent the default action of a button inside a form, which is to submit the form*/}
+                    <Button type='button' buttonType={BUTTON_TYPES_ClASSES.google} onClick={SignInWithGoogle}>Google sign in</Button>   {/*here type='button' is used to prevent the default action of a button inside a form, which is to submit the form*/}
                 </div>
            </form>
        </div> 
