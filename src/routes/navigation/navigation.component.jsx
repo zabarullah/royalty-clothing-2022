@@ -10,7 +10,7 @@ import { CartContext } from '../../contexts/cart.context';
 
 import { signOutUser } from '../../utils/firebase/firebase.utils';  //  Context Step 7 - 
 
-import './navigation.styles.scss'
+import {NavigationContainer, NavLinks, Navlink, LogoContainer} from './navigation.styles'
 
 const Navigation = () => {
     const { currentUser } = useContext(UserContext);                //  Context step 5 - grab the currenUser Value now from the Provider(UserContext)
@@ -19,19 +19,19 @@ const Navigation = () => {
 
     return (
         <Fragment>                                                    {/*Used instead of using just a parent div tag*/}
-            <div className='navigation'>
-                <Link className='logo-container' to='/'> <CrwnLogo className='logo' /> </Link>
-                <div className='nav-links-container'> 
-                    <Link className='nav-link' to='/shop'>SHOP</Link>
+            <NavigationContainer>
+                <LogoContainer to='/'> <CrwnLogo className='logo' /> </LogoContainer>
+                <NavLinks> 
+                    <Navlink to='/shop'>SHOP</Navlink>
                     {
-                        currentUser ? ( <span className='nav-link' onClick={signOutUser}> SIGN OUT</span> ) : ( <Link className='nav-link' to='/auth'>SIGN IN</Link> )  // Context Step 7 -  if there is a User signed in then it will show SIGNOUT otherwise it will show SIGN IN on the NAV Bar
+                        currentUser ? ( <Navlink as= 'span' onClick={signOutUser}> SIGN OUT</Navlink> ) : ( <Navlink to='/auth'>SIGN IN</Navlink> )  // Context Step 7 -  if there is a User signed in then it will show SIGNOUT otherwise it will show SIGN IN on the NAV Bar
                     }
-                    <Link className='nav-link' to='/shop'>SHOP</Link>
-                    <Link className='nav-link' to='/shop'>SHOP</Link>
+                    <Navlink to='/shop'>SHOP</Navlink>
+                    <Navlink to='/shop'>SHOP</Navlink>
                     <CartIcon />
-                </div>
+                </NavLinks>
                 {isCartOpen ? (<CartDropdown />) : null}
-            </div>
+            </NavigationContainer>
             <Outlet />                                                {/* Outlet here will render every other child or nested routes below the Navigation */}
         </Fragment>
     )
