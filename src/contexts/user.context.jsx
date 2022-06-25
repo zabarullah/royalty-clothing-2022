@@ -13,15 +13,12 @@ export const UserProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState(null);                                   // sets the values for currentUser to null, then we pass these values to an object called value, which is then passed to the UserContext.Provider as value
     const value = {currentUser, setCurrentUser};
 
-
-
     useEffect(() => {
        const unsubscribe = onAuthStateChangedListener((user) => {
         if (user) {
             createUserDocumentFromAuth(user);                           // pass in the user to the createUserDocumentFromAuth method So that the user is used as userAuth in this method
         }
         setCurrentUser(user);
-            console.log(user);
        })
 
        return unsubscribe;
