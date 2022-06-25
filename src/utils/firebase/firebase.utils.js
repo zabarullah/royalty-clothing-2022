@@ -38,7 +38,7 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
     });
 
     await batch.commit();                                                           // awaits for the batch to be ready to be committed.
-    console.log('done');                                                            
+ //   console.log('done');                                                            
 };
 
 export const getCategoriesAndDocuments = async () => {
@@ -60,12 +60,12 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
     if(!userAuth) return;
 
     const userDocRef = doc(db, 'users', userAuth.uid); // This doc() method  will get a document reference for the db mentioned, under the users collection with a uid for who is loggined in, if not found google will generate this document reference(Note this will not automatically create it in firestore). We do this by passing in the db to the doc() method, with the second argument being the collection name(here it will be 'users'), and finally, UserID from userAuth which would be our unique id
-    console.log(userDocRef);                             // shows the document reference object (note that the user is still not created in the firestore db yet)
+ //   console.log(userDocRef);                             // shows the document reference object (note that the user is still not created in the firestore db yet)
 
     //get the data(userSnapshot) for a particular document. 
     const userSnapshot = await getDoc(userDocRef);       // Gets the document for the provided useDocRef known as the document Snapshot
-    console.log(userSnapshot);
-    console.log(userSnapshot.exists());                 // the exists() method checks inside the firestore databse if that document snapshot exists or not
+//    console.log(userSnapshot);
+ //   console.log(userSnapshot.exists());                 // the exists() method checks inside the firestore databse if that document snapshot exists or not
 
     // if the firestore database does not have a snapshotfor this user:    
     if(!userSnapshot.exists()) {
