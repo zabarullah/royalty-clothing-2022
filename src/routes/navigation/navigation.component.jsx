@@ -26,8 +26,6 @@ const Navigation = () => {
                     {
                         currentUser ? ( <Navlink as= 'span' onClick={signOutUser}> SIGN OUT</Navlink> ) : ( <Navlink to='/auth'>SIGN IN</Navlink> )  // Context Step 7 -  if there is a User signed in then it will show SIGNOUT otherwise it will show SIGN IN on the NAV Bar
                     }
-                    <Navlink to='/shop'>SHOP</Navlink>
-                    <Navlink to='/shop'>SHOP</Navlink>
                     <CartIcon />
                 </NavLinks>
                 {isCartOpen ? (<CartDropdown />) : null}
