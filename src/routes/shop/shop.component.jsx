@@ -3,8 +3,6 @@ import { Routes, Route  } from 'react-router-dom';
 import CatagoriesPreview from '../categories-preview/categories-preview.component';
 import Category from '../category/category.componet';
 
-import './shop.styles.scss';
-
 const Shop = () => {
     return (
         <Routes>

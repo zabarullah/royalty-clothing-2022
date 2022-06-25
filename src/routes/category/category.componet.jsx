@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { CategoriesContext } from '../../contexts/categories.context';
 import ProductCard from '../../components/product-card/product-card.component';
 
-import './category.styles.scss'
+import { CategoryContainer, Title } from './category.styles';
 
 const Category = () => {
     const { category } = useParams();                                                       // useParams allows us to get the value as an object from the route path(in shop.component)
@@ -17,9 +17,9 @@ const Category = () => {
 
     return (
         <Fragment>
-            <h2 className='category-title'>{category.toUpperCase()}</h2>
+            <Title>{category.toUpperCase()}</Title>
 
-        <div className='category-container'>
+        <CategoryContainer>
             {  
                 products &&                                                                 // since the categoriesMap is run asyncronously, when this component is run it has no products and an undfined error. So we must add a safe guard: if products has a value then render it(products && - part tests this)                                                           
                 products.map((product) => (
@@ -27,7 +27,7 @@ const Category = () => {
                     )
                 )
             }
-        </div>
+        </CategoryContainer>
         </Fragment>
     );
 };
