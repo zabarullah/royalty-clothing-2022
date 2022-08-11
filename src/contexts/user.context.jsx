@@ -2,6 +2,7 @@ import { createContext, useEffect, useReducer } from "react";
 
 import { onAuthStateChangedListener, createUserDocumentFromAuth } from "../utils/firebase/firebase.utils";
 
+import { createAction } from "../utils/reducer/reducer.utils";
 
 export const UserContext = createContext({
     currentUser: null,
@@ -43,7 +44,7 @@ export const UserProvider = ({children}) => {
     const { currentUser } = state;                                          // 5. we will destructure currentUser from the state
     console.log(currentUser);
     const setCurrentUser = (user) => {                                      // 6. setCurrentUser is defined as it is used later for the value. This function takes the user and 
-        dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user })                 // 6. dispatch sends of the action type and payload of the user
+        dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user))                 // 6. dispatch sends of the action type and payload of the user. // note createAction is our helper function we created inside utils folder 
     }
                                                                             //7. code below here was not changed from pre-Redux conversion.
     const value = {currentUser, setCurrentUser};
