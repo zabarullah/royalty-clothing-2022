@@ -1,14 +1,15 @@
-import { useContext, useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, Fragment } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { CategoriesContext } from '../../contexts/categories.context';
+import { selectCategoriesMap } from '../../store/categories/category.selector';
 import ProductCard from '../../components/product-card/product-card.component';
 
 import { CategoryContainer, Title } from './category.styles';
 
 const Category = () => {
     const { category } = useParams();                                                       // useParams allows us to get the value as an object from the route path(in shop.component)
-    const { categoriesMap } =  useContext(CategoriesContext);                                //grab categoriesMap from CategoriesContext
+    const categoriesMap = useSelector(selectCategoriesMap);
     const [products, setProducts] = useState(categoriesMap[category]);                      // we need to call categoriesMap upon the category to get the products from the category
                                                                                             // we could use: const products = categoriesMap[category]  to get the products but this will happen each time this component re-renders, instead we deploy the useState & useEffect.
     useEffect(() => {
