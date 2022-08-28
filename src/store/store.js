@@ -1,11 +1,25 @@
 import { legacy_createStore as createStore } from "redux";
 import { compose,  applyMiddleware } from "redux";
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 // import { configureStore } from "@reduxjs/toolkit";
 
 import  {rootReducer}  from "./root-reducer";
 
-const middlewares = [logger];                                                               // we will be using the logger middleware from redux-logger. Middlewares catch actions before they hit the reducers, and in this case it will log out the state before it is passed on to a reducer    
+
+const loggerMiddleware = (store) => (next) => (action) => {
+    if(!action.type) {
+        return next(action);
+    }
+    console.log('LoggerMiddleware: type: ', action.type);
+    console.log('LoggerMiddleware: payload: ', action.payload);
+    console.log('LoggerMiddleware: currentState:', store.getState());
+
+    next(action);
+    
+    console.log('LoggerMiddleware: next state: ', store.getState());
+};
+
+const middlewares = [loggerMiddleware];                                                               // we will be using the logger middleware from redux-logger. Middlewares catch actions before they hit the reducers, and in this case it will log out the state before it is passed on to a reducer    
 
 const composeEnhancers = compose(applyMiddleware(...middlewares));                          //we will pass in the middlewares into applyMiddleware method, and then pass it into compose inorder to be able to use the middleware (composeEhancers)
 

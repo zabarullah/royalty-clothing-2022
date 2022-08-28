@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs } from 'firebase/firestore'; // doc gets the document, whilst getDoc and setDoc gets/sets the data
+import { getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs, DocumentSnapshot } from 'firebase/firestore'; // doc gets the document, whilst getDoc and setDoc gets/sets the data
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -46,13 +46,7 @@ export const getCategoriesAndDocuments = async () => {
     const q = query(collectionRef);                                                // generate a query generates an object: collectionRef is passed on to the query to provide a snapshot
 
     const querySnapshot = await getDocs(q);                                         // getDocs allows to use the object from query(q) to then grab a snapshot documents
-    const categoriesMap = querySnapshot.docs.reduce((acc, docSnapshot) => {         // querySnapshot.docs gives us an array of snapshots, we reduce over the querySnapShots.docs inorder to get the array structure of categories with their respected items
-        const { title, items } = docSnapshot.data();                                // destructuring title and items from the docSnapshot (this grabs the data from the snapshot and grabs title and items from it)
-        acc[title.toLowerCase()] = items;                                           // the accumalator at the title value will be equal to the items, where, acc[index of item]
-        return acc;                                                                 // returns the accumalator    
-    }, {});
-
-    return categoriesMap;                                                           // finally we return the caregoriesMap
+    return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 }
 
 // Setting up user documents, so that we can later store it in the firestore database
