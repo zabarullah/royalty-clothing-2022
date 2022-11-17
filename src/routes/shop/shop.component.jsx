@@ -4,13 +4,13 @@ import { useDispatch } from "react-redux";
 
 import CatagoriesPreview from '../categories-preview/categories-preview.component';
 import Category from '../category/category.componet';
-import { fetchCategoriesAsync } from '../../store/categories/category.action';                  // instead of pre-thunk setCategories
+import { fetchCategoriesStart } from '../../store/categories/category.action';                  // instead of pre-thunk setCategories
 
 const Shop = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {                                                   
-        dispatch(fetchCategoriesAsync()); 
+        dispatch(fetchCategoriesStart()); 
     }, []);
 
     return (

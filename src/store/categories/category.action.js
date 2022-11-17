@@ -16,13 +16,3 @@ export const fetchCategoriesFailed = (error) => {                               
      return createAction(CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAILED, error)
 }
 
-export const fetchCategoriesAsync = () => async (dispatch) =>{                                    // Thunk, an Async function is returned in a thunk which will now be used in the shop component
-     dispatch(fetchCategoriesStart());
-     
-     try {
-          const categoriesArray = await getCategoriesAndDocuments();  
-          dispatch(fetchCategoriesSuccess(categoriesArray));
-     } catch (error) {
-          dispatch(fetchCategoriesFailed(error));
-     }
-}
