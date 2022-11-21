@@ -1,11 +1,12 @@
 import { useState } from "react";                       /*  Context step 6 */
-
-import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
+import { useDispatch } from "react-redux";
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 
 import { SignUpContainer } from "./sign-up-form.styles"
+
+import { signUpStart } from "../../store/user/user.action";
 
 //This object will be used to keep track of multiple fields from a form within this one object and passed onto the useState.
 const defaultFormFields = {                         
@@ -19,6 +20,7 @@ const defaultFormFields = {
 const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { displayName, email , password, confirmPassword } = formFields;
+    const dispatch = useDispatch();
 
     const resetFormFields = () => {
         setFormFields(defaultFormFields);                               // resets the form back to an empty string state
@@ -32,9 +34,7 @@ const SignUpForm = () => {
         }
 
         try {
-            const {user} = await createAuthUserWithEmailAndPassword(email, password);
-
-            await createUserDocumentFromAuth(user, {displayName});
+            dispatch(signUpStart(email, password, displayName));
             resetFormFields();                                          // to reset the form fields to empty string
         } catch (error) {
             if (error.code === 'auth/email-already-in-use'){

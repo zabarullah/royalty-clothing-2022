@@ -73,7 +73,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
         }
     }    
     // if user data exists, it will skip the condition above and simply return userDocRef(that already exists)
-    return userDocRef;
+    return userSnapshot;
 
 
     //if user data eists the return the userDocRef
@@ -94,5 +94,18 @@ export const signInUserWithEmailAndPassword = async (email, password) => {
 export const signOutUser = async () => await signOut(auth);                             //  Context Step 7 - 
 
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
+
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(
+            auth,
+            (userAuth) => {
+                unsubscribe();
+                resolve(userAuth);
+            },
+            reject
+        );
+    }) ;
+};
 
 export default firebaseApp;

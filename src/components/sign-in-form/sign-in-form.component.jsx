@@ -1,11 +1,12 @@
 import { useState } from "react";   
-
-import { signInWithGooglePopup, signInUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
+import { useDispatch } from "react-redux";
 
 import FormInput from "../form-input/form-input.component";
 import Button, {BUTTON_TYPES_ClASSES} from "../button/button.component";
 
 import { SignInContainer, ButtonsContainer } from "./sign-in-form.styles"
+import { googleSignInStart, emailSigninStart } from "../../store/user/user.action";
+
 
 //This object will be used to keep track of multiple fields from a form within this one object and passed onto the useState.
 const defaultFormFields = {                         
@@ -14,6 +15,7 @@ const defaultFormFields = {
 }
 
 const SignInForm = () => {
+   const dispatch = useDispatch();
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email , password } = formFields;
 
@@ -22,14 +24,14 @@ const SignInForm = () => {
     }
 
     const SignInWithGoogle = async () => {
-        await signInWithGooglePopup();                      
+        dispatch(googleSignInStart());                      
      };
     
     const handleSubmit = async (event) => {
         event.preventDefault();                                         // to prevent the default action of a form submit
 
         try {
-            const { user } = await signInUserWithEmailAndPassword(email, password);
+            dispatch(emailSigninStart(email, password));
  
             resetFormFields();
         } catch (error) {
