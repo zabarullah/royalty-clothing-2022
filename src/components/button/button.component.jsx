@@ -1,4 +1,4 @@
-import { BaseButton, GoogleSignInButton, InvertedButton } from "./button.styles"
+import { BaseButton, GoogleSignInButton, InvertedButton, ButtonSpinner } from "./button.styles"
 
 /*
 We have three types of buttons on the application:
@@ -24,11 +24,13 @@ const getButton = (buttonType =  BUTTON_TYPES_ClASSES.base) => (
     }[buttonType]
 );
 
-const Button = ({ children, buttonType, ...otherProps }) => {                                              // children here will be the elements inside the button like the <p> tag H1 tag etc for any possible button on the site. buttonType will be a string and ...otherProps will be other information like type submit
+const Button = ({ children, buttonType, isLoading,...otherProps }) => {                                              // children here will be the elements inside the button like the <p> tag H1 tag etc for any possible button on the site. buttonType will be a string and ...otherProps will be other information like type submit
     const CustomButton = getButton(buttonType);
     return (
-        <CustomButton {...otherProps}> {children} </CustomButton>
-    )
+        <CustomButton disabled={isLoading} {...otherProps}> 
+        {isLoading ? <ButtonSpinner /> : children} 
+        </CustomButton>
+    );
 };
 
 export default Button;
